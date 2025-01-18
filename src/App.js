@@ -1,11 +1,9 @@
-import Header from "./Header";
-import Body from "./Body";
+import Counter from "./Counter";
 
 const App = () => {
   return (
-    <div className="app">
-      <Header />
-      <Body />
+    <div>
+      <Counter />
     </div>
   );
 };
