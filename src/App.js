@@ -1,9 +1,11 @@
-import ProductList from "./ProductList";
+import Header from "./Header";
+import Body from "./Body";
 
 const App = () => {
   return (
-    <div>
-      <ProductList />
+    <div className="app">
+      <Header />
+      <Body />
     </div>
   );
 };

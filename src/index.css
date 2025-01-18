@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+
+.nav-items > ul {
+  display: flex;
+  list-style-type: none;
+}
+
+.nav-items > ul > li {
+  padding: 10px;
+  margin: 20px;
+}
+
+.res-card > rescard1 {
+  border: 1px solid black;
+}
+
+.res-card > rescard2 {
+  border: 1px solid black;
+}
