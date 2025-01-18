@@ -1,9 +1,9 @@
-import Counter from "./Counter";
+import ProductList from "./ProductList";
 
 const App = () => {
   return (
     <div>
-      <Counter />
+      <ProductList />
     </div>
   );
 };
