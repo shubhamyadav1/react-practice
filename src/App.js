@@ -1,9 +1,8 @@
-import ProductList from "./ProductList";
-
+import User from "./User";
 const App = () => {
   return (
     <div>
-      <ProductList />
+      <User />
     </div>
   );
 };
