@@ -1,40 +1,78 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-const ProductList = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [title1, setTitle1] = useState("");
-  const [count, setCount] = useState(0);
+const ProductListWithPagination = () => {
+  const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const itemsPerPage = 30;
+
+  const fetchData = async (page) => {
+    try {
+      setLoading(true); // Show loading text while fetching data
+      const response = await fetch(
+        `https://dummyjson.com/products?limit=${itemsPerPage}&skip=${
+          (page - 1) * itemsPerPage
+        }`
+      );
+      const data = await response.json();
+      setProducts(data.products);
+    } catch (err) {
+      setError("Failed to fetch products. Please try again later.");
+    } finally {
+      setLoading(false); // Hide loading text once data is fetched
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("https://dummyjson.com/products");
-      const response1 = await fetch(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
-      const json = await response.json();
-      const json1 = await response1.json();
+    fetchData(currentPage); // Fetch products for the current page
+  }, [currentPage]);
 
-      const data = json.products[2];
-      const data1 = json1[0].title;
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(194 / itemsPerPage)) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
 
-      setTitle(data.title);
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
 
-      setTitle1(data1);
-      setDescription(json.products[2].description);
-    };
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-    fetchData();
-  }, []);
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div>
-      <h1>{title}</h1>
-      <h1>{title1}</h1>
-      <h2>{description}</h2>
-      <p>Renders: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment Counter</button>
+      <div>
+        {products.map((product) => (
+          <div key={product.id}>
+            <h1>{product.title}</h1>
+            <p>{product.description}</p>
+          </div>
+        ))}
+      </div>
+      <div>
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span> Page {currentPage} </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === Math.ceil(194 / itemsPerPage)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
-export default ProductList;
+
+export default ProductListWithPagination;
